@@ -1,10 +1,13 @@
+import type { PolicyStatus } from '../../lib/constants'
+
 export interface Policy {
   id: number
   policyNumber: string
   holderName: string
   type: string
   premium: number
-  status: string
+  /** One of STATUS_OPTIONS — never a free string. See lib/constants.ts. */
+  status: PolicyStatus
 }
 
 export type PolicyInput = Omit<Policy, 'id'>

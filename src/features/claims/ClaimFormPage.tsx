@@ -2,10 +2,10 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Spinner } from '../../components/ui/Spinner'
 import type { SelectOption } from '../../components/ui/Select'
-import { STATUS_OPTIONS } from '../../lib/constants'
 import { policyApi } from '../policies/policyApi'
 import { ClaimFormFields, type ClaimFormErrors } from './ClaimFormFields'
 import { claimApi } from './claimApi'
+import { CLAIM_STATUSES } from './claimStatuses'
 import type { ClaimInput } from './types'
 
 const emptyClaim: ClaimInput = {
@@ -13,7 +13,9 @@ const emptyClaim: ClaimInput = {
   policyId: 0,
   description: '',
   amount: 0,
-  status: STATUS_OPTIONS[0],
+  // A new claim starts at the head of the lifecycle, not at whichever value happens to be first
+  // in some other entity's list.
+  status: CLAIM_STATUSES[0],
 }
 
 function validate(values: ClaimInput): ClaimFormErrors {

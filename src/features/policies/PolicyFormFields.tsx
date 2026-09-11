@@ -1,7 +1,7 @@
 import { FormField } from '../../components/ui/FormField'
 import { Input } from '../../components/ui/Input'
 import { Select } from '../../components/ui/Select'
-import { STATUS_OPTIONS } from '../../lib/constants'
+import { STATUS_OPTIONS, type PolicyStatus } from '../../lib/constants'
 import type { PolicyInput } from './types'
 
 export type PolicyFormErrors = Partial<Record<keyof PolicyInput, string>>
@@ -57,7 +57,9 @@ export function PolicyFormFields({ values, errors, onChange }: PolicyFormFieldsP
           id="status"
           options={statusSelectOptions}
           value={values.status}
-          onChange={(event) => onChange('status', event.target.value)}
+          // The select's own options are generated from STATUS_OPTIONS, so its value is always
+          // one of them — the cast is the DOM boundary, not a widening of the model.
+          onChange={(event) => onChange('status', event.target.value as PolicyStatus)}
         />
       </FormField>
     </div>

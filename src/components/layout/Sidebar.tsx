@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import { cn } from '../../lib/cn'
 
 const navItems = [
+  { to: '/', label: 'Dashboard' },
   { to: '/policies', label: 'Policies' },
   { to: '/claims', label: 'Claims' },
 ]
@@ -17,6 +18,7 @@ export function Sidebar() {
           <NavLink
             key={item.to}
             to={item.to}
+            end={item.to === '/'}
             className={({ isActive }) =>
               cn(
                 'rounded-md px-3 py-2 text-sm font-medium text-surface-600 hover:bg-surface-100 hover:text-surface-900',

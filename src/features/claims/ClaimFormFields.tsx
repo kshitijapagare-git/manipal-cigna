@@ -1,7 +1,7 @@
 import { FormField } from '../../components/ui/FormField'
 import { Input } from '../../components/ui/Input'
 import { Select, type SelectOption } from '../../components/ui/Select'
-import { STATUS_OPTIONS } from '../../lib/constants'
+import { CLAIM_STATUSES, claimStatusLabel, type ClaimStatus } from './claimStatuses'
 import type { ClaimInput } from './types'
 
 export type ClaimFormErrors = Partial<Record<keyof ClaimInput, string>>
@@ -14,7 +14,10 @@ export interface ClaimFormFieldsProps {
   policyOptions: SelectOption[]
 }
 
-const statusSelectOptions = STATUS_OPTIONS.map((status) => ({ value: status, label: status }))
+const statusSelectOptions = CLAIM_STATUSES.map((status) => ({
+  value: status,
+  label: claimStatusLabel(status),
+}))
 
 export function ClaimFormFields({ values, errors, onChange, policyOptions }: ClaimFormFieldsProps) {
   return (
@@ -67,7 +70,9 @@ export function ClaimFormFields({ values, errors, onChange, policyOptions }: Cla
           id="status"
           options={statusSelectOptions}
           value={values.status}
-          onChange={(event) => onChange('status', event.target.value)}
+          // The select's own options are generated from CLAIM_STATUSES, so its value is always
+          // one of them — the cast is the DOM boundary, not a widening of the model.
+          onChange={(event) => onChange('status', event.target.value as ClaimStatus)}
         />
       </FormField>
     </div>

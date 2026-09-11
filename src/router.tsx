@@ -1,5 +1,6 @@
 import { Navigate, type RouteObject } from 'react-router-dom'
 import { Layout } from './components/layout/Layout'
+import { DashboardPage } from './features/dashboard/DashboardPage'
 import { PolicyListPage } from './features/policies/PolicyListPage'
 import { PolicyDetailPage } from './features/policies/PolicyDetailPage'
 import { PolicyFormPage } from './features/policies/PolicyFormPage'
@@ -12,7 +13,8 @@ export const routes: RouteObject[] = [
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <Navigate to="/policies" replace /> },
+      { index: true, element: <DashboardPage /> },
+      { path: 'dashboard', element: <Navigate to="/" replace /> },
       { path: 'policies', element: <PolicyListPage /> },
       { path: 'policies/new', element: <PolicyFormPage /> },
       { path: 'policies/:id', element: <PolicyDetailPage /> },
@@ -21,7 +23,7 @@ export const routes: RouteObject[] = [
       { path: 'claims/new', element: <ClaimFormPage /> },
       { path: 'claims/:id', element: <ClaimDetailPage /> },
       { path: 'claims/:id/edit', element: <ClaimFormPage /> },
-      { path: '*', element: <Navigate to="/policies" replace /> },
+      { path: '*', element: <Navigate to="/" replace /> },
     ],
   },
 ]
