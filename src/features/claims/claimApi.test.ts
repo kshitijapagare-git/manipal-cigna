@@ -16,6 +16,28 @@ describe('claimApi (mock)', () => {
     }
   })
 
+  it('filters claims by status', async () => {
+    const result = await claimApi.list({ status: 'APPROVED' })
+    expect(result.data.length).toBeGreaterThan(0)
+    for (const claim of result.data) {
+      expect(claim.status).toBe('APPROVED')
+    }
+  })
+
+  it('filters claims by description and status together', async () => {
+    const result = await claimApi.list({ search: 'damage', status: 'REJECTED' })
+    expect(result.data.length).toBeGreaterThan(0)
+    for (const claim of result.data) {
+      expect(claim.description.toLowerCase()).toContain('damage')
+      expect(claim.status).toBe('REJECTED')
+    }
+
+    // "damage" also appears in an APPROVED claim's description, so this combination proves the
+    // status filter narrows results rather than the search term alone.
+    const noMatch = await claimApi.list({ search: 'damage', status: 'SETTLED' })
+    expect(noMatch.data).toHaveLength(0)
+  })
+
   it('creates, reads, updates and removes a claim', async () => {
     const created = await claimApi.create({
       claimNumber: 'CLM-TEST-1',

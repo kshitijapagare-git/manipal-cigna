@@ -58,16 +58,20 @@ async function list(params: ListClaimsParams = {}): Promise<ListClaimsResult> {
     if (params.page) query.set('page', String(params.page))
     if (params.pageSize) query.set('pageSize', String(params.pageSize))
     if (params.search) query.set('description', params.search)
+    if (params.status) query.set('status', params.status)
     return apiRequest<ListClaimsResult>(`/claims?${query.toString()}`)
   }
 
   const page = params.page ?? 1
   const pageSize = params.pageSize ?? PAGE_SIZE
   const search = params.search?.trim().toLowerCase()
+  const status = params.status
 
-  const filtered = search
-    ? claims.filter((claim) => claim.description.toLowerCase().includes(search))
-    : claims
+  const filtered = claims.filter((claim) => {
+    const matchesSearch = search ? claim.description.toLowerCase().includes(search) : true
+    const matchesStatus = status ? claim.status === status : true
+    return matchesSearch && matchesStatus
+  })
 
   const start = (page - 1) * pageSize
   const data = filtered.slice(start, start + pageSize)

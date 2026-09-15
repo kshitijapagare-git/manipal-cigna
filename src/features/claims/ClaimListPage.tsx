@@ -5,12 +5,19 @@ import { ConfirmDialog } from '../../components/ui/ConfirmDialog'
 import { CrudList, type CrudListColumn } from '../../components/ui/CrudList'
 import { Pagination } from '../../components/ui/Pagination'
 import { SearchInput } from '../../components/ui/SearchInput'
+import { Select } from '../../components/ui/Select'
 import { StatusBadge } from '../../components/ui/StatusBadge'
 import { TableFilters } from '../../components/ui/TableFilters'
 import { formatCurrency } from '../../lib/formatters'
 import { PAGE_SIZE } from '../../lib/constants'
 import { claimApi } from './claimApi'
+import { CLAIM_STATUSES, claimStatusLabel, type ClaimStatus } from './claimStatuses'
 import type { Claim } from './types'
+
+const statusFilterOptions = [
+  { value: '', label: 'All Statuses' },
+  ...CLAIM_STATUSES.map((status) => ({ value: status, label: claimStatusLabel(status) })),
+]
 
 export function ClaimListPage() {
   const navigate = useNavigate()
@@ -18,22 +25,25 @@ export function ClaimListPage() {
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
+  const [status, setStatus] = useState<ClaimStatus | ''>('')
   const [isLoading, setIsLoading] = useState(true)
   const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null)
 
   useEffect(() => {
     let cancelled = false
     setIsLoading(true)
-    claimApi.list({ page, pageSize: PAGE_SIZE, search }).then((result) => {
-      if (cancelled) return
-      setRows(result.data)
-      setTotal(result.total)
-      setIsLoading(false)
-    })
+    claimApi
+      .list({ page, pageSize: PAGE_SIZE, search, status: status || undefined })
+      .then((result) => {
+        if (cancelled) return
+        setRows(result.data)
+        setTotal(result.total)
+        setIsLoading(false)
+      })
     return () => {
       cancelled = true
     }
-  }, [page, search])
+  }, [page, search, status])
 
   // Searching resets pagination back to the first page.
   function handleSearchChange(value: string) {
@@ -41,11 +51,22 @@ export function ClaimListPage() {
     setPage(1)
   }
 
+  // Changing the status filter resets pagination back to the first page.
+  function handleStatusChange(value: string) {
+    setStatus(value as ClaimStatus | '')
+    setPage(1)
+  }
+
   async function handleConfirmDelete() {
     if (pendingDeleteId === null) return
     await claimApi.remove(pendingDeleteId)
     setPendingDeleteId(null)
-    const result = await claimApi.list({ page, pageSize: PAGE_SIZE, search })
+    const result = await claimApi.list({
+      page,
+      pageSize: PAGE_SIZE,
+      search,
+      status: status || undefined,
+    })
     setRows(result.data)
     setTotal(result.total)
   }
@@ -76,6 +97,13 @@ export function ClaimListPage() {
           onChange={handleSearchChange}
           placeholder="Search by description…"
           className="max-w-xs"
+        />
+        <Select
+          options={statusFilterOptions}
+          value={status}
+          onChange={(event) => handleStatusChange(event.target.value)}
+          className="max-w-xs"
+          aria-label="Filter by status"
         />
       </TableFilters>
 

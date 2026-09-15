@@ -17,6 +17,8 @@ export interface ListClaimsParams {
   pageSize?: number
   /** Plain search against the `description` field only. */
   search?: string
+  /** Filter to a single claim status. Combined with `search` as an AND condition. */
+  status?: ClaimStatus
 }
 
 export interface ListClaimsResult {
