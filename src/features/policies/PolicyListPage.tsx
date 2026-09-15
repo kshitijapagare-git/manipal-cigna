@@ -5,7 +5,7 @@ import { ConfirmDialog } from '../../components/ui/ConfirmDialog'
 import { CrudList, type CrudListColumn } from '../../components/ui/CrudList'
 import { Pagination } from '../../components/ui/Pagination'
 import { StatusBadge } from '../../components/ui/StatusBadge'
-import { formatCurrency } from '../../lib/formatters'
+import { formatCurrency, formatDate } from '../../lib/formatters'
 import { PAGE_SIZE } from '../../lib/constants'
 import { policyApi } from './policyApi'
 import type { Policy } from './types'
@@ -46,6 +46,7 @@ export function PolicyListPage() {
     { key: 'holderName', header: 'Holder', render: (row) => row.holderName },
     { key: 'type', header: 'Type', render: (row) => row.type },
     { key: 'premium', header: 'Premium', render: (row) => formatCurrency(row.premium) },
+    { key: 'renewalDate', header: 'Renewal date', render: (row) => formatDate(row.renewalDate) },
     { key: 'status', header: 'Status', render: (row) => <StatusBadge status={row.status} /> },
   ]
 

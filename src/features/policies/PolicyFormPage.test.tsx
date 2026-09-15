@@ -20,6 +20,7 @@ describe('PolicyFormPage', () => {
     await user.type(screen.getByLabelText(/policy number/i), 'POL-9999')
     await user.type(screen.getByLabelText(/holder name/i), 'New Holder')
     await user.type(screen.getByLabelText(/^type/i), 'Health')
+    await user.type(screen.getByLabelText(/renewal date/i), '2025-01-15')
 
     await user.click(screen.getByRole('button', { name: /save policy/i }))
 

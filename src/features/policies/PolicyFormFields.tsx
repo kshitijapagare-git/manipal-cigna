@@ -52,6 +52,15 @@ export function PolicyFormFields({ values, errors, onChange }: PolicyFormFieldsP
         />
       </FormField>
 
+      <FormField label="Renewal date" htmlFor="renewalDate" error={errors?.renewalDate} required>
+        <Input
+          id="renewalDate"
+          type="date"
+          value={values.renewalDate}
+          onChange={(event) => onChange('renewalDate', event.target.value)}
+        />
+      </FormField>
+
       <FormField label="Status" htmlFor="status" error={errors?.status} required>
         <Select
           id="status"

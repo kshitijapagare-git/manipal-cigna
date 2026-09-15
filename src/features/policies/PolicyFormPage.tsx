@@ -11,6 +11,9 @@ const emptyPolicy: PolicyInput = {
   holderName: '',
   type: '',
   premium: 0,
+  // Left blank so a fresh date input starts empty rather than pre-filled with a value
+  // that would collide with whatever the user then types into it.
+  renewalDate: '',
   status: STATUS_OPTIONS[0],
 }
 
@@ -20,6 +23,7 @@ function validate(values: PolicyInput): PolicyFormErrors {
   if (!values.holderName.trim()) errors.holderName = 'Holder name is required'
   if (!values.type.trim()) errors.type = 'Type is required'
   if (!values.status.trim()) errors.status = 'Status is required'
+  if (!values.renewalDate.trim()) errors.renewalDate = 'Renewal date is required'
   if (values.premium < 0) errors.premium = 'Premium must be zero or greater'
   return errors
 }

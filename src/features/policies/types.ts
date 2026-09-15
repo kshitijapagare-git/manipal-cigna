@@ -8,6 +8,8 @@ export interface Policy {
   premium: number
   /** One of STATUS_OPTIONS — never a free string. See lib/constants.ts. */
   status: PolicyStatus
+  /** ISO date string (YYYY-MM-DD) — the date this policy is next due for renewal. */
+  renewalDate: string
 }
 
 export type PolicyInput = Omit<Policy, 'id'>

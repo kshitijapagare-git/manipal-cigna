@@ -15,6 +15,7 @@ let policies: Policy[] = [
     type: 'Health',
     premium: 4200,
     status: 'ACTIVE',
+    renewalDate: '2025-03-15',
   },
   {
     id: 2,
@@ -23,6 +24,7 @@ let policies: Policy[] = [
     type: 'Life',
     premium: 12500,
     status: 'ACTIVE',
+    renewalDate: '2025-06-01',
   },
   {
     id: 3,
@@ -31,6 +33,7 @@ let policies: Policy[] = [
     type: 'Motor',
     premium: 3100,
     status: 'PENDING',
+    renewalDate: '2025-01-20',
   },
   {
     id: 4,
@@ -39,6 +42,7 @@ let policies: Policy[] = [
     type: 'Home',
     premium: 5600,
     status: 'INACTIVE',
+    renewalDate: '2025-09-10',
   },
   {
     id: 5,
@@ -47,6 +51,7 @@ let policies: Policy[] = [
     type: 'Health',
     premium: 4800,
     status: 'ACTIVE',
+    renewalDate: '2025-04-05',
   },
 ]
 

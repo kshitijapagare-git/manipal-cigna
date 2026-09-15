@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Spinner } from '../../components/ui/Spinner'
 import { StatusBadge } from '../../components/ui/StatusBadge'
 import { EmptyState } from '../../components/ui/EmptyState'
-import { formatCurrency } from '../../lib/formatters'
+import { formatCurrency, formatDate } from '../../lib/formatters'
 import { policyApi } from './policyApi'
 import type { Policy } from './types'
 
@@ -31,6 +31,7 @@ export function PolicyDetailPage() {
     ['Holder name', policy.holderName],
     ['Type', policy.type],
     ['Premium', formatCurrency(policy.premium)],
+    ['Renewal date', formatDate(policy.renewalDate)],
     ['Status', <StatusBadge key="status" status={policy.status} />],
   ]
 

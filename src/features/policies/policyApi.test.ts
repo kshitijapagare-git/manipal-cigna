@@ -15,6 +15,7 @@ describe('policyApi (mock)', () => {
       type: 'Travel',
       premium: 100,
       status: 'ACTIVE',
+      renewalDate: '2025-05-01',
     })
     expect(created.id).toBeDefined()
 
