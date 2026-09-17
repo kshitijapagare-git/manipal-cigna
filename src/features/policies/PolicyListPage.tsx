@@ -8,6 +8,7 @@ import { StatusBadge } from '../../components/ui/StatusBadge'
 import { formatCurrency } from '../../lib/formatters'
 import { PAGE_SIZE } from '../../lib/constants'
 import { policyApi } from './policyApi'
+import { toneForPolicyStatus } from './policyStatusTone'
 import type { Policy } from './types'
 
 export function PolicyListPage() {
@@ -46,7 +47,17 @@ export function PolicyListPage() {
     { key: 'holderName', header: 'Holder', render: (row) => row.holderName },
     { key: 'type', header: 'Type', render: (row) => row.type },
     { key: 'premium', header: 'Premium', render: (row) => formatCurrency(row.premium) },
-    { key: 'status', header: 'Status', render: (row) => <StatusBadge status={row.status} /> },
+    {
+      key: 'status',
+      header: 'Status',
+      render: (row) => (
+        <StatusBadge
+          status={row.status}
+          tone={toneForPolicyStatus(row.status)}
+          label={row.status ?? 'Unknown'}
+        />
+      ),
+    },
   ]
 
   return (

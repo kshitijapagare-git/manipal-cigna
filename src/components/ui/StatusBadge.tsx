@@ -19,9 +19,16 @@ function toneForStatus(status: string): BadgeTone {
 }
 
 export interface StatusBadgeProps {
-  status: string
+  status: string | null | undefined
+  /** Overrides the tone derived from `status`. */
+  tone?: BadgeTone
+  /** Overrides the visible label text. */
+  label?: string
 }
 
-export function StatusBadge({ status }: StatusBadgeProps) {
-  return <Badge tone={toneForStatus(status)}>{status}</Badge>
+export function StatusBadge({ status, tone, label }: StatusBadgeProps) {
+  const displayLabel = label ?? status ?? 'Unknown'
+  const displayTone = tone ?? (status == null ? 'neutral' : toneForStatus(status))
+
+  return <Badge tone={displayTone}>{displayLabel}</Badge>
 }
